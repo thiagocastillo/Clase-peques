@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔍 Bibliodatos — Biblioteca País</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>🕵️ Bibliodatos</h1>
+    <p class="sub">Herramienta de detectives para explorar los datos de la <strong>Biblioteca País</strong> · Mayo 2021</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="panel intro">
+    <p>🔎 Usá los filtros para investigar la base de datos. A diferencia del PDF, acá podés
+    <strong>buscar</strong>, <strong>ordenar</strong> y <strong>filtrar</strong> al instante. ¡Resolvé el caso!</p>
+  </section>
+
+  <section class="panel filtros">
+    <div class="campo campo-busca">
+      <label for="busca">Buscar título</label>
+      <input type="text" id="busca" placeholder="Ej: Splat, dragón, coronavirus…" autocomplete="off">
+    </div>
+    <div class="campo">
+      <label for="usuario">ID de usuario</label>
+      <input type="number" id="usuario" placeholder="Ej: 500001" autocomplete="off">
+    </div>
+    <div class="campo">
+      <label for="fecha">Fecha (mayo 2021)</label>
+      <select id="fecha"><option value="">Todas</option></select>
+    </div>
+    <div class="campo">
+      <label for="depto">Departamento</label>
+      <select id="depto"><option value="">Todos</option></select>
+    </div>
+    <div class="campo">
+      <label for="edad">Edad</label>
+      <select id="edad"><option value="">Todas</option></select>
+    </div>
+    <div class="campo campo-btn">
+      <button id="limpiar" type="button">🧹 Limpiar filtros</button>
+    </div>
+  </section>
+
+  <section class="conteo">
+    <span id="conteo">…</span>
+    <span class="hint">Tocá los títulos de las columnas para ordenar ↕</span>
+  </section>
+
+  <section class="tabla-wrap">
+    <table id="tabla">
+      <thead>
+        <tr>
+          <th data-col="fecha">Fecha</th>
+          <th data-col="id">ID usuario</th>
+          <th data-col="edad">Edad</th>
+          <th data-col="depto">Departamento</th>
+          <th data-col="prestamos">Préstamos</th>
+          <th data-col="tiempo">Tiempo lectura</th>
+          <th data-col="titulo">Título</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpo"></tbody>
+    </table>
+    <div id="vacio" class="vacio" hidden>😕 No hay resultados con esos filtros. Probá cambiarlos.</div>
+    <div id="mas-wrap" class="mas-wrap" hidden>
+      <button id="mas" type="button">Mostrar más resultados ▾</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Datos: Base anonimizada · Plan Ceibal — Biblioteca País. Actividad de Pensamiento Computacional.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
