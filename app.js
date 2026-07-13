@@ -16,6 +16,7 @@ const elUsuario = $("usuario");
 const elFecha = $("fecha");
 const elDepto = $("depto");
 const elEdad = $("edad");
+const elTiempo = $("tiempo");
 const elCuerpo = $("cuerpo");
 const elConteo = $("conteo");
 const elVacio = $("vacio");
@@ -86,6 +87,7 @@ function conectarEventos() {
   elFecha.addEventListener("change", refiltrar);
   elDepto.addEventListener("change", refiltrar);
   elEdad.addEventListener("change", refiltrar);
+  elTiempo.addEventListener("change", refiltrar);
 
   $("limpiar").addEventListener("click", () => {
     elBusca.value = "";
@@ -93,6 +95,7 @@ function conectarEventos() {
     elFecha.value = "";
     elDepto.value = "";
     elEdad.value = "";
+    elTiempo.value = "";
     orden = { col: null, dir: 1 };
     document.querySelectorAll("th").forEach((th) => th.classList.remove("asc", "desc"));
     aplicarFiltros();
@@ -111,6 +114,7 @@ function aplicarFiltros() {
   const dia = elFecha.value;
   const dep = elDepto.value;
   const edad = elEdad.value;
+  const tiempo = elTiempo.value;
 
   filtrados = REGISTROS.filter((r) => {
     if (texto && !r.tituloLower.includes(texto)) return false;
@@ -118,6 +122,7 @@ function aplicarFiltros() {
     if (dia && String(r.dia) !== dia) return false;
     if (dep && r.depto !== dep) return false;
     if (edad && String(r.edad) !== edad) return false;
+    if (tiempo && !enRangoTiempo(r.tiempo, tiempo)) return false;
     return true;
   });
 
@@ -192,6 +197,15 @@ function actualizarConteo() {
   } else {
     elConteo.textContent = `🔎 ${n.toLocaleString("es")} resultado${n === 1 ? "" : "s"} encontrado${n === 1 ? "" : "s"}`;
   }
+}
+
+// Devuelve true si el tiempo (min) cae en el rango elegido: "0", "1-10", "11-30", "31-60", "61-"
+function enRangoTiempo(t, rango) {
+  if (rango === "0") return t === 0;
+  const [lo, hi] = rango.split("-");
+  const min = Number(lo);
+  const max = hi === "" ? Infinity : Number(hi);
+  return t >= min && t <= max;
 }
 
 // --- utilidades ---
