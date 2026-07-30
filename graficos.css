@@ -1,0 +1,136 @@
+/* Etapa 2 — Gráficos. Se carga después de style.css y reusa sus variables. */
+
+.nav-etapas{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.nav-etapas a{
+  display:inline-block;
+  padding:7px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.14);
+  color:#fff;
+  text-decoration:none;
+  font-size:.9rem;
+  font-weight:600;
+  border:1px solid rgba(255,255,255,.28);
+}
+.nav-etapas a:hover{background:rgba(255,255,255,.26)}
+.nav-etapas a.activo{background:var(--amar);color:#5a4500;border-color:var(--amar)}
+
+/* --- constructor de 3 pasos --- */
+.constructor{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:14px;
+  align-items:end;
+}
+.paso{display:flex;gap:10px;align-items:flex-end}
+.paso .campo{flex:1}
+.paso-num{
+  flex:0 0 auto;
+  width:28px;height:28px;
+  margin-bottom:9px;
+  border-radius:50%;
+  background:var(--azul);
+  color:#fff;
+  font-weight:700;
+  font-size:.9rem;
+  display:grid;place-items:center;
+}
+.campo-tipo .segmentado{display:flex;gap:0;border:2px solid var(--borde);border-radius:10px;overflow:hidden}
+.segmentado button{
+  flex:1;
+  padding:11px 6px;
+  border:none;
+  background:#fff;
+  color:var(--gris);
+  font-size:.88rem;
+  font-weight:600;
+  cursor:pointer;
+}
+.segmentado button:hover{background:#eef5ff}
+.segmentado button.activo{background:var(--azul);color:#fff}
+.segmentado button:focus-visible{outline:3px solid var(--amar);outline-offset:-3px}
+
+/* --- filtros de la etapa 2 --- */
+.filtros-graf{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.filtros-titulo{
+  grid-column:1 / -1;
+  margin:0;
+  font-weight:700;
+  color:var(--azul-osc);
+}
+.filtros-titulo span{font-weight:400;color:var(--gris);font-size:.88rem}
+#f-limpiar{
+  width:100%;padding:11px 12px;border:none;border-radius:10px;
+  background:var(--amar);color:#5a4500;font-weight:700;font-size:.95rem;cursor:pointer;
+}
+#f-limpiar:hover{filter:brightness(.96)}
+
+/* --- tarjetas de hallazgos --- */
+.hallazgo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.tarjeta{
+  background:var(--panel);
+  border:1px solid var(--borde);
+  border-left:6px solid var(--verde);
+  border-radius:14px;
+  box-shadow:var(--sombra);
+  padding:14px 16px;
+  display:flex;flex-direction:column;gap:2px;
+}
+.tarjeta-min{border-left-color:#e8a33d}
+.tarjeta-rot{font-size:.8rem;font-weight:700;color:var(--gris);letter-spacing:.02em}
+.tarjeta strong{font-size:1.12rem;color:var(--azul-osc);line-height:1.25}
+.tarjeta-valor{font-size:.95rem;color:var(--gris)}
+
+/* --- gráfico --- */
+.grafico-wrap{
+  background:var(--panel);
+  border:1px solid var(--borde);
+  border-radius:14px;
+  box-shadow:var(--sombra);
+  padding:14px 16px 18px;
+  margin-bottom:16px;
+}
+.grafico-barra-sup{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;flex-wrap:wrap;margin-bottom:8px;
+}
+.grafico-barra-sup h2{margin:0;font-size:1.05rem;color:var(--azul-osc)}
+#descargar{
+  padding:9px 16px;border:2px solid var(--azul);border-radius:10px;
+  background:#fff;color:var(--azul);font-weight:700;font-size:.9rem;cursor:pointer;
+}
+#descargar:hover{background:var(--azul);color:#fff}
+#descargar:disabled{opacity:.5;cursor:not-allowed}
+.grafico{overflow-x:auto}
+.grafico svg{display:block;width:100%;height:auto;min-width:620px}
+
+/* --- tabla y pistas --- */
+.tabla-datos summary,.pistas summary{
+  cursor:pointer;font-weight:700;color:var(--azul-osc);font-size:1rem;
+}
+.tabla-wrap-graf{margin-top:12px;box-shadow:none;border-radius:10px}
+.tabla-wrap-graf table{min-width:420px}
+#copiar{
+  margin-top:12px;padding:9px 16px;border:2px solid var(--azul);border-radius:10px;
+  background:#fff;color:var(--azul);font-weight:700;font-size:.9rem;cursor:pointer;
+}
+#copiar:hover{background:var(--azul);color:#fff}
+.copiado{margin-left:10px;color:var(--verde);font-weight:700;font-size:.9rem}
+.pistas ul{margin:12px 0 0;padding-left:22px}
+.pistas li{margin-bottom:7px}
+.pistas em{color:var(--azul);font-style:normal;font-weight:600}
+.pistas .nota{
+  margin:14px 0 0;padding:11px 13px;
+  background:#fff8e1;border-left:4px solid var(--amar);border-radius:8px;
+  font-size:.92rem;color:#5a4500;
+}
+.pistas .nota em{color:#5a4500;font-weight:700}
+
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{
+  outline:3px solid var(--amar);outline-offset:2px;
+}
+
+@media(max-width:640px){
+  .hallazgo{grid-template-columns:1fr}
+  .grafico svg{min-width:520px}
+}

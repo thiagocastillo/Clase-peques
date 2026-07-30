@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Bibliodatos — Gráficos (Etapa 2)</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="graficos.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>📊 Bibliodatos · Gráficos</h1>
+    <p class="sub">Etapa 2 — Cuando filtrar y ordenar no alcanza, <strong>graficamos</strong> para ver lo que los datos no dicen a simple vista.</p>
+    <nav class="nav-etapas">
+      <a href="index.html">🔎 Etapa 1 · Buscar y filtrar</a>
+      <a href="graficos.html" class="activo" aria-current="page">📊 Etapa 2 · Gráficos</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="panel intro">
+    <p>🕵️ Armá un gráfico en 3 pasos: elegí <strong>qué comparar</strong>, <strong>qué contar</strong> y mirá quién queda
+    más alto y quién más bajo. Podés acotar la investigación con los filtros y descargar el gráfico para pegarlo en el informe.</p>
+  </section>
+
+  <section class="panel constructor">
+    <div class="paso">
+      <span class="paso-num">1</span>
+      <div class="campo">
+        <label for="dim">¿Qué querés comparar?</label>
+        <select id="dim">
+          <option value="edad">Edad de los lectores</option>
+          <option value="depto">Departamento</option>
+          <option value="dia">Día de mayo</option>
+          <option value="rango">Tiempo de lectura en línea</option>
+          <option value="titulo">Título del libro</option>
+          <option value="usuario">ID de usuario</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="paso">
+      <span class="paso-num">2</span>
+      <div class="campo">
+        <label for="metrica">¿Qué querés contar?</label>
+        <select id="metrica">
+          <option value="prestamos">Cantidad de préstamos</option>
+          <option value="lectores">Lectores distintos</option>
+          <option value="minutos">Minutos leídos en línea (total)</option>
+          <option value="promedio">Minutos leídos (promedio)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="paso">
+      <span class="paso-num">3</span>
+      <div class="campo">
+        <label for="orden">¿Cómo ordenamos las barras?</label>
+        <select id="orden">
+          <option value="valor-desc">De la más alta a la más baja</option>
+          <option value="valor-asc">De la más baja a la más alta</option>
+          <option value="natural">Por categoría (edad, fecha, A-Z…)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="campo campo-top" id="wrap-top" hidden>
+      <label for="top">¿Cuántas barras mostramos?</label>
+      <select id="top">
+        <option value="5">Las 5 primeras</option>
+        <option value="10" selected>Las 10 primeras</option>
+        <option value="15">Las 15 primeras</option>
+        <option value="20">Las 20 primeras</option>
+      </select>
+    </div>
+
+    <div class="campo campo-tipo">
+      <label>Tipo de gráfico</label>
+      <div class="segmentado" role="group" aria-label="Tipo de gráfico">
+        <button type="button" id="tipo-v" class="activo" aria-pressed="true">▮ Barras verticales</button>
+        <button type="button" id="tipo-h" aria-pressed="false">▬ Barras horizontales</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel filtros filtros-graf">
+    <p class="filtros-titulo">🔬 Acotar la investigación <span>(opcional)</span></p>
+    <div class="campo">
+      <label for="f-depto">Solo este departamento</label>
+      <select id="f-depto"><option value="">Todos</option></select>
+    </div>
+    <div class="campo">
+      <label for="f-edad">Solo esta edad</label>
+      <select id="f-edad"><option value="">Todas</option></select>
+    </div>
+    <div class="campo">
+      <label for="f-titulo">El título contiene…</label>
+      <input type="text" id="f-titulo" placeholder="Ej: dragón, Splat" autocomplete="off">
+    </div>
+    <div class="campo campo-btn">
+      <button id="f-limpiar" type="button">🧹 Quitar filtros</button>
+    </div>
+  </section>
+
+  <section class="hallazgo" id="hallazgo" hidden>
+    <div class="tarjeta tarjeta-max">
+      <span class="tarjeta-rot">🏆 La barra más alta</span>
+      <strong id="max-label">—</strong>
+      <span id="max-valor" class="tarjeta-valor">—</span>
+    </div>
+    <div class="tarjeta tarjeta-min">
+      <span class="tarjeta-rot">🔻 La barra más baja</span>
+      <strong id="min-label">—</strong>
+      <span id="min-valor" class="tarjeta-valor">—</span>
+    </div>
+  </section>
+
+  <section class="grafico-wrap">
+    <div class="grafico-barra-sup">
+      <h2 id="titulo-graf">Gráfico</h2>
+      <button id="descargar" type="button">📸 Descargar gráfico</button>
+    </div>
+    <div id="grafico" class="grafico" aria-live="polite"></div>
+    <p id="graf-vacio" class="vacio" hidden>😕 Con esos filtros no quedan datos para graficar. Probá quitar alguno.</p>
+  </section>
+
+  <details class="panel tabla-datos">
+    <summary>🔢 Ver los números del gráfico</summary>
+    <div class="tabla-wrap tabla-wrap-graf">
+      <table id="tabla-graf">
+        <thead><tr><th>Categoría</th><th>Valor</th><th>Parte del total</th></tr></thead>
+        <tbody id="cuerpo-graf"></tbody>
+      </table>
+    </div>
+    <button id="copiar" type="button">📋 Copiar los datos</button>
+    <span id="copiado" class="copiado" hidden>¡Copiado!</span>
+  </details>
+
+  <details class="panel pistas">
+    <summary>🔎 Preguntas del desafío</summary>
+    <ul>
+      <li><strong>¿Qué edad tiene el grupo que menos visitó la Biblioteca País?</strong> Comparar por <em>Edad</em>, contar <em>préstamos</em>, ordenar de la más baja a la más alta.</li>
+      <li><strong>¿Cuál es el libro más consultado? ¿Y el menos?</strong> Comparar por <em>Título</em> y cambiar el orden.</li>
+      <li><strong>¿En qué departamento se leyó más?</strong> Comparar por <em>Departamento</em>.</li>
+      <li><strong>¿Qué libro leen más los lectores de 11 años?</strong> Filtrá <em>edad = 11</em> y comparé por <em>Título</em>.</li>
+      <li><strong>¿Qué día de mayo hubo más préstamos?</strong> Comparar por <em>Día de mayo</em>, ordenar por categoría para ver la evolución.</li>
+      <li><strong>¿Quién leyó más minutos en línea?</strong> Comparar por <em>ID de usuario</em> y contar <em>minutos leídos</em>.</li>
+    </ul>
+    <p class="nota">📌 Esta base guarda <em>título</em>, no <em>género</em> ni <em>autor</em>. Para la pregunta del "género más consultado",
+    agrupá por <em>Título</em> y conversen en clase qué género le correspondería a cada libro: los datos tienen límites, y notarlo es parte de la investigación.</p>
+  </details>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Datos: Base anonimizada · Plan Ceibal — Biblioteca País. Actividad de Pensamiento Computacional.</p>
+  </div>
+</footer>
+
+<script src="graficos.js"></script>
+</body>
+</html>
